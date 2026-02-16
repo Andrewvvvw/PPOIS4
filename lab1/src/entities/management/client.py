@@ -33,3 +33,13 @@ class Client:
 
     def set_hair_service_status(self, haircut_status: bool) -> None:
         self.__needs_hair_services = haircut_status
+
+    def to_dict(self) -> dict:
+        return {
+            "name": self.get_name(),
+            "age": self.get_age()
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> 'Client':
+        return cls(name=data["name"], age=data["age"])

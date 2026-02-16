@@ -1,4 +1,4 @@
-from exceptions.exceptions import IncorrectAgeError, IncorrectNameError
+from src.exceptions.exceptions import IncorrectAgeError, IncorrectNameError
 
 
 def validate_age(age: int) -> None:

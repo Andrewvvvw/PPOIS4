@@ -1,10 +1,8 @@
-from entities.inventory.hairdressing_equipment import HairdressingEquipment
-from entities.management.client import Client
-from entities.management.master import Master
-from entities.services.service import Service
-from exceptions.exceptions import BrokenEquipmentError
-from utils.equipment_condition import EquipmentCondition
-from utils.masters_specialization import MastersSpecialization
+from src.entities.inventory.hairdressing_equipment import HairdressingEquipment
+from src.entities.management.client import Client
+from src.entities.management.master import Master
+from src.entities.services.service import Service
+from src.utils.masters_specialization import MastersSpecialization
 
 
 class HairService(Service):
@@ -12,12 +10,10 @@ class HairService(Service):
             self,
             name: str,
             price: float,
-            hairstyle: str,
             required_equipment: list[HairdressingEquipment]
     ) -> None:
         super().__init__(name, price)
         self.set_required_equipment(required_equipment)
-        self.__hairstyle = hairstyle
 
     def set_required_equipment(
             self,
@@ -27,8 +23,8 @@ class HairService(Service):
             hairdressing_equipment
         )
 
-    def get_required_equipment(self) -> list[HairdressingEquipment]:
-        return self.__required_equipment
+    def get_equipment(self) -> list[HairdressingEquipment]:
+        return self.__required_equipment.copy()
 
     def add_equipment_item(self, equipment: HairdressingEquipment) -> None:
         self.__required_equipment.append(equipment)
@@ -38,19 +34,29 @@ class HairService(Service):
             self.add_equipment_item(tool)
 
     def perform(self, client: Client) -> None:
-        for tool in self.__required_equipment:
-            if tool.get_condition() == EquipmentCondition.BROKEN:
-                raise BrokenEquipmentError(
-                    f"{tool.get_name()} is broken. Cannot perform service."
-                )
+        for equipment in self.__required_equipment:
+            equipment.use_equipment()
 
         client.set_hair_service_status(False)
-
-        for tool in self.__required_equipment:
-            tool.degrade()
 
     def can_perform_by(self, master: Master) -> bool:
         return master.get_specialization() in (
             MastersSpecialization.HAIR_STYLING,
             MastersSpecialization.HAIR_CUTTING
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "type": "HairService",
+            "name": self.get_name(),
+            "price": self.get_price(),
+            "resource_names": [r.get_name() for r in self.get_equipment()]
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict, resources: list) -> 'HairService':
+        return cls(
+            name=data["name"],
+            price=data["price"],
+            required_equipment=resources
         )

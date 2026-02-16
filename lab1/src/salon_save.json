@@ -1,0 +1,76 @@
+{
+    "name": "New Salon",
+    "balance": 230.0,
+    "staff": [
+        {
+            "name": "Andrew",
+            "age": 20,
+            "spec": "Hair styling master"
+        },
+        {
+            "name": "Liza",
+            "age": 22,
+            "spec": "Cosmetics master"
+        }
+    ],
+    "inventory": [
+        {
+            "type": "Cosmetics",
+            "name": "Toner",
+            "desc": "Recovers pH-balance",
+            "amount": 9,
+            "price": 15.0
+        },
+        {
+            "type": "Cosmetics",
+            "name": "Serum",
+            "desc": "For deep layers",
+            "amount": 0,
+            "price": 20.0
+        },
+        {
+            "type": "Equipment",
+            "name": "Scissors",
+            "desc": "for cut",
+            "amount": 5
+        },
+        {
+            "type": "Equipment",
+            "name": "Hair Dryer",
+            "desc": "for drying",
+            "amount": 3
+        }
+    ],
+    "services": [
+        {
+            "type": "CosmeticProcedure",
+            "name": "Intense Hydration",
+            "price": 30.0,
+            "resource_names": [
+                "Toner",
+                "Serum"
+            ]
+        },
+        {
+            "type": "HairService",
+            "name": "Scissors cut",
+            "price": 15.0,
+            "resource_names": [
+                "Scissors",
+                "Hair Dryer"
+            ]
+        }
+    ],
+    "bookings": [
+        {
+            "client": {
+                "name": "Robert",
+                "age": 19
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        }
+    ]
+}

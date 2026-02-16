@@ -1,8 +1,8 @@
-from entities.management.client import Client
-from entities.management.master import Master
-from entities.services.service import Service
-from entities.inventory.cosmetics import Cosmetics
-from utils.masters_specialization import MastersSpecialization
+from src.entities.management.client import Client
+from src.entities.management.master import Master
+from src.entities.services.service import Service
+from src.entities.inventory.cosmetics import Cosmetics
+from src.utils.masters_specialization import MastersSpecialization
 
 
 class CosmeticProcedure(Service):
@@ -15,7 +15,7 @@ class CosmeticProcedure(Service):
         super().__init__(name, price)
         self._required_cosmetics = cosmetics
 
-    def get_cosmetics(self) -> list[Cosmetics]:
+    def get_equipment(self) -> list[Cosmetics]:
         return self._required_cosmetics.copy()
 
     def set_cosmetics(self, cosmetics: list[Cosmetics]) -> None:
@@ -23,6 +23,24 @@ class CosmeticProcedure(Service):
 
     def perform(self, client: Client) -> None:
         client.set_cosmetic_status(False)
+        for cosmetic in self._required_cosmetics:
+            cosmetic.reduce_amount(1)
 
     def can_perform_by(self, master: Master) -> bool:
         return master.get_specialization() == MastersSpecialization.COSMETICS
+
+    def to_dict(self) -> dict:
+        return {
+            "type": "CosmeticProcedure",
+            "name": self.get_name(),
+            "price": self.get_price(),
+            "resource_names": [r.get_name() for r in self.get_equipment()]
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict, resources: list) -> 'CosmeticProcedure':
+        return cls(
+            name=data["name"],
+            price=data["price"],
+            cosmetics=resources
+        )

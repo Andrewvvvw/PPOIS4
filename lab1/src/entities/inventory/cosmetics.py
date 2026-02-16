@@ -1,4 +1,4 @@
-from entities.inventory.inventory_item import InventoryItem
+from src.entities.inventory.inventory_item import InventoryItem
 from src.exceptions.exceptions import PriceError
 
 
@@ -20,3 +20,21 @@ class Cosmetics(InventoryItem):
         if price <= 0:
             raise PriceError("Price must be a positive number")
         self._price = price
+
+    def to_dict(self) -> dict:
+        return {
+            "type": "Cosmetics",
+            "name": self.get_name(),
+            "desc": self.get_description(),
+            "amount": self.get_amount(),
+            "price": self.get_price()
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> 'Cosmetics':
+        return cls(
+            name=data["name"],
+            price=data["price"],
+            description=data["desc"],
+            amount=data["amount"]
+        )

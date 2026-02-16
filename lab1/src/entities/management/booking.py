@@ -1,7 +1,7 @@
-from entities.management.client import Client
-from entities.services.service import Service
-from utils.booking_status import BookingStatus
-from entities.management.master import Master
+from src.entities.management.client import Client
+from src.entities.services.service import Service
+from src.utils.booking_status import BookingStatus
+from src.entities.management.master import Master
 
 
 class Booking:
@@ -56,4 +56,26 @@ class Booking:
             f"service='{self.__service.get_name()}', "
             f"master='{self.__master.get_name()}', "
             f"status='{self.get_status().value}')"
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "client": self.get_client().to_dict(),
+            "master_name": self.get_master().get_name(),
+            "master_spec": self.get_master().get_specialization().value,
+            "service_name": self.get_service().get_name(),
+            "status": self.get_status().value
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict, master, service) -> 'Booking':
+        from utils.booking_status import BookingStatus
+        from entities.management.client import Client
+
+        client = Client.from_dict(data["client"])
+        return cls(
+            client=client,
+            service=service,
+            master=master,
+            status=BookingStatus(data["status"])
         )

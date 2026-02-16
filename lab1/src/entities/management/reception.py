@@ -1,4 +1,4 @@
-from entities.management.booking import Booking
+from src.entities.management.booking import Booking
 
 
 class Reception:
@@ -11,6 +11,9 @@ class Reception:
 
     def get_balance(self) -> float:
         return self.__balance
+
+    def set_balance(self, balance: float) -> None:
+        self.__balance = balance
 
     def add_booking(self, booking: Booking) -> None:
         if not isinstance(booking, Booking):

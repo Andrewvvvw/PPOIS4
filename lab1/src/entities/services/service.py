@@ -1,8 +1,8 @@
-from entities.management.client import Client
-from entities.management.master import Master
+from src.entities.inventory.inventory_item import InventoryItem
+from src.entities.management.client import Client
+from src.entities.management.master import Master
+from src.utils.validator import validate_name
 from abc import ABC, abstractmethod
-
-from utils.validator import validate_name
 
 
 class Service(ABC):
@@ -30,5 +30,9 @@ class Service(ABC):
         pass
 
     @abstractmethod
-    def can_perform_by(self,master: Master) -> bool:
+    def can_perform_by(self, master: Master) -> bool:
+        pass
+
+    @abstractmethod
+    def get_equipment(self) -> list[InventoryItem]:
         pass

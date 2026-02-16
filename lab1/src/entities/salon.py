@@ -1,14 +1,11 @@
-from entities.inventory.cosmetics import Cosmetics
-from entities.management.master import Master
-from entities.management.reception import Reception
-from entities.inventory.inventory_item import InventoryItem
-from entities.services.cosmetic_procedure import CosmeticProcedure
-from entities.services.hair_service import HairService
-from entities.services.service import Service
-from entities.management.client import Client
-from entities.management.booking import Booking
-from exceptions.exceptions import (
-    BrokenEquipmentError,
+from src.entities.inventory.cosmetics import Cosmetics
+from src.entities.management.master import Master
+from src.entities.management.reception import Reception
+from src.entities.inventory.inventory_item import InventoryItem
+from src.entities.services.service import Service
+from src.entities.management.client import Client
+from src.entities.management.booking import Booking
+from src.exceptions.exceptions import (
     StaffError,
     ServiceError,
     MasterSpecializationError,
@@ -17,7 +14,7 @@ from exceptions.exceptions import (
     ItemNotForSaleError,
     ItemAmountError
 )
-from utils.booking_status import BookingStatus
+from src.utils.booking_status import BookingStatus
 
 
 class Salon:
@@ -44,10 +41,16 @@ class Salon:
         if master in self.__staff:
             self.__staff.remove(master)
         else:
-            raise ValueError(f"Master {master.get_name()} is not in staff")
+            raise StaffError(f"Master {master.get_name()} is not in staff")
 
     def add_service(self, service: Service) -> None:
         self.__services.append(service)
+
+    def remove_service(self, target: Service) -> None:
+        if target in self.__services:
+            self.__services.remove(target)
+        else:
+            raise ServiceError(f"Target {target.get_name()} not found")
 
     def get_services(self) -> list[Service]:
         return self.__services.copy()
@@ -64,29 +67,17 @@ class Salon:
     def check_balance(self) -> float:
         return self.__reception.get_balance()
 
+    def get_bookings(self) -> list[Booking]:
+        return self.__reception.get_bookings()
+
     def _check_resources_for_service(self, service: Service) -> bool:
-        if isinstance(service, CosmeticProcedure):
-            for req_cosmetic in service.get_cosmetics():
-                inventory_item = self.find_product(req_cosmetic.get_name())
-                if not inventory_item or inventory_item.get_amount() <= 0:
-                    raise InventoryItemError(
-                        f"There's no '{req_cosmetic.get_name()}' "
-                        "in salon inventory"
-                    )
-
-        if isinstance(service, HairService):
-            for equipment in service.get_required_equipment():
-                inventory_item = self.find_product(equipment.get_name())
-                if not inventory_item:
-                    raise InventoryItemError(
-                        f"There's no '{equipment.get_name()}' "
-                        "in salon inventory")
-
-                if not inventory_item.is_useful():
-                    raise BrokenEquipmentError(
-                        f"Equipment {equipment.get_name()} is broken"
-                    )
-
+        for equipment in service.get_equipment():
+            inventory_item = self.find_product(equipment.get_name())
+            if not inventory_item or inventory_item.get_amount() <= 0:
+                raise InventoryItemError(
+                    f"There's no '{equipment.get_name()}' "
+                    "in salon inventory"
+                )
         return True
 
     @staticmethod
@@ -187,3 +178,9 @@ class Salon:
         self.__reception.process_payment(total_price)
 
         print(f"Sold {product.get_name()} with {quantity} item(s)")
+
+    def find_service_by_name(self, service_name: str) -> Service | None:
+        for service in self.__services:
+            if service.get_name() == service_name:
+                return service
+        return None

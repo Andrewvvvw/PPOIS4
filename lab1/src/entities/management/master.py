@@ -1,5 +1,5 @@
-from utils.masters_specialization import MastersSpecialization
-from utils.validator import validate_name, validate_age
+from src.utils.masters_specialization import MastersSpecialization
+from src.utils.validator import validate_name, validate_age
 
 
 class Master:
@@ -51,4 +51,19 @@ class Master:
         return (
             f"Master {self.__name} "
             f"(Specialization: {self.__specialization.value})"
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "name": self.get_name(),
+            "age": self.get_age(),
+            "spec": self.get_specialization().value
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> 'Master':
+        return cls(
+            name=data["name"],
+            age=data["age"],
+            specialization=MastersSpecialization(data["spec"])
         )
