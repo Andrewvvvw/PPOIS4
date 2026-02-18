@@ -1,4 +1,3 @@
-from src.entities.management.client import Client
 from src.entities.management.master import Master
 from src.entities.services.service import Service
 from src.entities.inventory.cosmetics import Cosmetics
@@ -21,8 +20,7 @@ class CosmeticProcedure(Service):
     def set_cosmetics(self, cosmetics: list[Cosmetics]) -> None:
         self._required_cosmetics = cosmetics
 
-    def perform(self, client: Client) -> None:
-        client.set_cosmetic_status(False)
+    def perform(self) -> None:
         for cosmetic in self._required_cosmetics:
             cosmetic.reduce_amount(1)
 

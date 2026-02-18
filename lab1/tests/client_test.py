@@ -8,15 +8,11 @@ class TestClient:
         client = Client("John Doe", 25)
         assert client.get_name() == "John Doe"
         assert client.get_age() == 25
-        assert client.get_cosmetic_status() is True
-        assert client.get_hair_service_status() is True
 
     def test_init_with_different_valid_parameters(self) -> None:
         client = Client("Alice Smith", 30)
         assert client.get_name() == "Alice Smith"
         assert client.get_age() == 30
-        assert client.get_cosmetic_status() is True
-        assert client.get_hair_service_status() is True
 
     def test_get_name(self) -> None:
         client = Client("John Doe", 25)
@@ -25,14 +21,6 @@ class TestClient:
     def test_get_age(self) -> None:
         client = Client("John Doe", 25)
         assert client.get_age() == 25
-
-    def test_get_cosmetic_status_initial(self) -> None:
-        client = Client("John Doe", 25)
-        assert client.get_cosmetic_status() is True
-
-    def test_get_hair_service_status_initial(self) -> None:
-        client = Client("John Doe", 25)
-        assert client.get_hair_service_status() is True
 
     def test_set_name_valid(self) -> None:
         client = Client("John Doe", 25)
@@ -96,26 +84,6 @@ class TestClient:
         client.set_age(120)
         assert client.get_age() == 120
 
-    def test_set_cosmetic_status_true(self) -> None:
-        client = Client("John Doe", 25)
-        client.set_cosmetic_status(True)
-        assert client.get_cosmetic_status() is True
-
-    def test_set_cosmetic_status_false(self) -> None:
-        client = Client("John Doe", 25)
-        client.set_cosmetic_status(False)
-        assert client.get_cosmetic_status() is False
-
-    def test_set_hair_service_status_true(self) -> None:
-        client = Client("John Doe", 25)
-        client.set_hair_service_status(True)
-        assert client.get_hair_service_status() is True
-
-    def test_set_hair_service_status_false(self) -> None:
-        client = Client("John Doe", 25)
-        client.set_hair_service_status(False)
-        assert client.get_hair_service_status() is False
-
     def test_to_dict(self) -> None:
         client = Client("John Doe", 25)
         result = client.to_dict()
@@ -133,16 +101,12 @@ class TestClient:
         client = Client.from_dict(data)
         assert client.get_name() == "John Doe"
         assert client.get_age() == 25
-        assert client.get_cosmetic_status() is True
-        assert client.get_hair_service_status() is True
 
     def test_from_dict_different_data(self) -> None:
         data = {"name": "Alice Smith", "age": 30}
         client = Client.from_dict(data)
         assert client.get_name() == "Alice Smith"
         assert client.get_age() == 30
-        assert client.get_cosmetic_status() is True
-        assert client.get_hair_service_status() is True
 
     def test_from_dict_missing_name(self) -> None:
         data = {"age": 25}
@@ -164,28 +128,9 @@ class TestClient:
 
         client.set_name("Jane Smith")
         client.set_age(30)
-        client.set_cosmetic_status(False)
-        client.set_hair_service_status(False)
 
         assert client.get_name() == "Jane Smith"
         assert client.get_age() == 30
-        assert client.get_cosmetic_status() is False
-        assert client.get_hair_service_status() is False
-
-    def test_status_changes_independent(self) -> None:
-        client = Client("John Doe", 25)
-
-        client.set_cosmetic_status(False)
-        assert client.get_cosmetic_status() is False
-        assert client.get_hair_service_status() is True
-
-        client.set_hair_service_status(False)
-        assert client.get_cosmetic_status() is False
-        assert client.get_hair_service_status() is False
-
-        client.set_cosmetic_status(True)
-        assert client.get_cosmetic_status() is True
-        assert client.get_hair_service_status() is False
 
     def test_edge_case_names(self) -> None:
         client1 = Client("A", 25)

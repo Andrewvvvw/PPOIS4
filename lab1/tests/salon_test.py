@@ -353,42 +353,6 @@ class TestSalon:
             salon.sell_product("Cream", 5)
         assert "Not enough product" in str(exc_info.value)
 
-    def test_check_resources_for_service_valid(self) -> None:
-        salon = Salon("Test Salon")
-        item = HairdressingEquipment("Scissors", "Professional scissors", 2)
-        salon.add_to_inventory(item)
-        equipment = [
-            HairdressingEquipment("Scissors", "Professional scissors", 2)
-        ]
-        service = HairService("Haircut", 50.0, equipment)
-
-        result = salon._check_resources_for_service(service)
-        assert result is True
-
-    def test_check_resources_for_service_missing_item(self) -> None:
-        salon = Salon("Test Salon")
-        equipment = [
-            HairdressingEquipment("Scissors", "Professional scissors", 2)
-        ]
-        service = HairService("Haircut", 50.0, equipment)
-
-        with pytest.raises(InventoryItemError) as exc_info:
-            salon._check_resources_for_service(service)
-        assert "no 'Scissors' in salon inventory" in str(exc_info.value)
-
-    def test_check_resources_for_service_zero_amount(self) -> None:
-        salon = Salon("Test Salon")
-        item = HairdressingEquipment("Scissors", "Professional scissors", 0)
-        salon.add_to_inventory(item)
-        equipment = [
-            HairdressingEquipment("Scissors", "Professional scissors", 2)
-        ]
-        service = HairService("Haircut", 50.0, equipment)
-
-        with pytest.raises(InventoryItemError) as exc_info:
-            salon._check_resources_for_service(service)
-        assert "no 'Scissors' in salon inventory" in str(exc_info.value)
-
     def test_check_master_specialization_valid(self) -> None:
         salon = Salon("Test Salon")
         master = Master("Jane Smith", 30, MastersSpecialization.HAIR_CUTTING)

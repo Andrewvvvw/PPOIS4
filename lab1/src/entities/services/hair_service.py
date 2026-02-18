@@ -1,5 +1,4 @@
 from src.entities.inventory.hairdressing_equipment import HairdressingEquipment
-from src.entities.management.client import Client
 from src.entities.management.master import Master
 from src.entities.services.service import Service
 from src.utils.masters_specialization import MastersSpecialization
@@ -33,11 +32,9 @@ class HairService(Service):
         for tool in equipment:
             self.add_equipment_item(tool)
 
-    def perform(self, client: Client) -> None:
+    def perform(self) -> None:
         for equipment in self.__required_equipment:
             equipment.use_equipment()
-
-        client.set_hair_service_status(False)
 
     def can_perform_by(self, master: Master) -> bool:
         return master.get_specialization() in (

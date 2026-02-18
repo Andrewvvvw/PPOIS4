@@ -70,7 +70,7 @@ class Salon:
     def get_bookings(self) -> list[Booking]:
         return self.__reception.get_bookings()
 
-    def _check_resources_for_service(self, service: Service) -> bool:
+    def __check_resources_for_service(self, service: Service) -> bool:
         for equipment in service.get_equipment():
             inventory_item = self.find_product(equipment.get_name())
             if not inventory_item or inventory_item.get_amount() <= 0:
@@ -107,7 +107,7 @@ class Salon:
                 f"Service {service.get_name()} isn't available"
             )
 
-        self._check_resources_for_service(service)
+        self.__check_resources_for_service(service)
 
         if not self._check_master_specialization(master, service):
             raise MasterSpecializationError(
@@ -140,7 +140,7 @@ class Salon:
             raise BookingStatusError("Booking is already completed")
 
         service = booking.get_service()
-        service.perform(booking.get_client())
+        service.perform()
 
         self.__reception.process_payment(service.get_price())
         booking.set_status(BookingStatus.DONE)

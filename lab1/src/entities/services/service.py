@@ -26,7 +26,7 @@ class Service(ABC):
         self._price: float = price
 
     @abstractmethod
-    def perform(self, client: Client) -> None:
+    def perform(self) -> None:
         pass
 
     @abstractmethod

@@ -1,6 +1,6 @@
 {
     "name": "New Salon",
-    "balance": 230.0,
+    "balance": 260.0,
     "staff": [
         {
             "name": "Andrew",
@@ -65,6 +65,26 @@
         {
             "client": {
                 "name": "Robert",
+                "age": 19
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Artem",
+                "age": 19
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Artemdjdj",
                 "age": 19
             },
             "master_name": "Andrew",

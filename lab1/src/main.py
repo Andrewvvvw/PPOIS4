@@ -1,4 +1,4 @@
-from interface.cli import SalonCLI
+from src.interface.cli import SalonCLI
 from src.utils.data_manager import SalonDataManager
 
 def main():
