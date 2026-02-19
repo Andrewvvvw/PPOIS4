@@ -55,6 +55,13 @@
 * **Utils**: В данной директории находится `data_manager.py` с классом DataManager, реализующий сохранение состояния системы. Также здесь хранятся валидаторы данных и классы `enum` для реализации системы специализаций сотрудников и статуса бронирований. 
 ---
 
+Менеджер может:
+* увольнять\нанимать\просматривать персонал
+* отменять\создавать\отмечать выполненным бронирование
+* продавать косметику\пополнять инвентарь салона
+* добавить\удалить предоставляемые сервисы
+* просматривать историю бронирований
+
 ### Интерфейс
 
 Система предлагает интерфейс командной строки CLI:
@@ -67,12 +74,97 @@
 5. Finance & History
 0. Exit
 ```
-Менеджер может:
-* увольнять\нанимать\просматривать персонал
-* отменять\создавать\отмечать выполненным бронирование
-* продавать косметику\пополнять инвентарь салона
-* добавить\удалить предоставляемые сервисы
-* просматривать историю бронирований
+
+Пример управления персоналом:
+```
+Welcome to 'BEST SALON' Salon Management System!
+
+--- MAIN MENU ---
+1. Staff Management
+2. Inventory & Sales
+3. Booking Management
+4. Service Management
+5. Finance & History
+0. Exit
+Select an option: 1
+
+--- STAFF MANAGEMENT ---
+1. Show Staff List
+2. Hire New Master
+3. Fire Master
+0. Back to Main Menu
+Select an action: 1
+
+Our Team:
+- Master Andrew (Specialization: Hair styling master)
+- Master Liz (Specialization: Cosmetics master)
+
+--- STAFF MANAGEMENT ---
+1. Show Staff List
+2. Hire New Master
+3. Fire Master
+0. Back to Main Menu
+Select an action: 2
+Enter master's name: John
+Enter master's age: 25
+
+Available Specializations:
+1. Cosmetics master
+2. Hair cutting master
+3. Hair styling master
+Select specialization (number): 2
+Master John has been successfully hired!
+```
+
+Пример продажи косметики:
+
+```
+--- MAIN MENU ---
+1. Staff Management
+2. Inventory & Sales
+3. Booking Management
+4. Service Management
+5. Finance & History
+0. Exit
+Select an option: 2
+
+--- INVENTORY ---
+1. View Products
+2. Sell Product
+3. Restock / Add New Item
+0. Back to Main Menu
+Action: 1
+
+--- SALON INVENTORY REPORT ---
+[Cosmetic] Toner | Stock: 7 | Price: 15.0BYN
+[Cosmetic] Serum | Stock: 8 | Price: 20.0BYN
+[Equipment] Scissors | Stock: 4
+[Equipment] Hair Dryer | Stock: 2
+
+--- INVENTORY ---
+1. View Products
+2. Sell Product
+3. Restock / Add New Item
+0. Back to Main Menu
+Action: 2
+Enter product name: Serum
+Enter quantity to sell: 3
+Sold Serum with 3 item(s)
+Current Salon Balance: 560.0BYN
+
+--- INVENTORY ---
+1. View Products
+2. Sell Product
+3. Restock / Add New Item
+0. Back to Main Menu
+Action: 1
+
+--- SALON INVENTORY REPORT ---
+[Cosmetic] Toner | Stock: 7 | Price: 15.0BYN
+[Cosmetic] Serum | Stock: 5 | Price: 20.0BYN
+[Equipment] Scissors | Stock: 4
+[Equipment] Hair Dryer | Stock: 2
+```
 
 ### Тесты
 
