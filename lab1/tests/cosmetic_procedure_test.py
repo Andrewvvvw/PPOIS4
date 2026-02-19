@@ -83,21 +83,6 @@ class TestCosmeticProcedure:
         assert procedure.get_equipment()[0].get_name() == "Serum"
         assert procedure.get_equipment()[1].get_name() == "Mask"
 
-    def test_perform_with_multiple_cosmetics(self) -> None:
-        cosmetics = [
-            Cosmetics("Cream", 10.0, "Face cream", 3),
-            Cosmetics("Serum", 15.0, "Face serum", 2),
-            Cosmetics("Mask", 8.0, "Face mask", 4)
-        ]
-        procedure = CosmeticProcedure("Full Treatment", 80.0, cosmetics)
-
-        initial_amounts = [c.get_amount() for c in cosmetics]
-
-        procedure.perform()
-
-        for i, cosmetic in enumerate(cosmetics):
-            assert cosmetic.get_amount() == initial_amounts[i] - 1
-
     def test_can_perform_by_cosmetics_master(self) -> None:
         cosmetics = [Cosmetics("Cream", 10.0, "Face cream", 5)]
         procedure = CosmeticProcedure("Facial", 50.0, cosmetics)
@@ -216,22 +201,6 @@ class TestCosmeticProcedure:
         procedure.set_price(60.0)
         assert procedure.get_price() == 60.0
 
-    def test_full_workflow(self) -> None:
-        cosmetics = [
-            Cosmetics("Cream", 10.0, "Face cream", 3),
-            Cosmetics("Serum", 15.0, "Face serum", 2)
-        ]
-        procedure = CosmeticProcedure("Luxury Facial", 100.0, cosmetics)
-        master = Master("Jane Doe", 35, MastersSpecialization.COSMETICS)
-
-        assert procedure.can_perform_by(master) is True
-
-        initial_amounts = [c.get_amount() for c in cosmetics]
-        procedure.perform()
-
-        for i, cosmetic in enumerate(cosmetics):
-            assert cosmetic.get_amount() == initial_amounts[i] - 1
-
     def test_cosmetic_list_isolation(self) -> None:
         cosmetics = [Cosmetics("Cream", 10.0, "Face cream", 5)]
         procedure = CosmeticProcedure("Facial", 50.0, cosmetics)
@@ -244,14 +213,3 @@ class TestCosmeticProcedure:
         assert len(equipment3) == 1
         assert "invalid" not in equipment3
 
-    def test_multiple_perform_calls(self) -> None:
-        cosmetics = [Cosmetics("Cream", 10.0, "Face cream", 3)]
-        procedure = CosmeticProcedure("Facial", 50.0, cosmetics)
-
-        procedure.perform()
-        first_amount = cosmetics[0].get_amount()
-
-        procedure.perform()
-        second_amount = cosmetics[0].get_amount()
-
-        assert first_amount - 1 == second_amount

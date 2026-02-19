@@ -1,5 +1,7 @@
 import json
 import os
+
+from src.entities.inventory.inventory_item import InventoryItem
 from src.entities.salon import Salon
 from src.entities.management.master import Master
 from src.entities.inventory.cosmetics import Cosmetics
@@ -7,6 +9,7 @@ from src.entities.inventory.hairdressing_equipment import HairdressingEquipment
 from src.entities.services.hair_service import HairService
 from src.entities.services.cosmetic_procedure import CosmeticProcedure
 from src.entities.management.booking import Booking
+from src.entities.services.service import Service
 
 
 class SalonDataManager:
@@ -30,14 +33,16 @@ class SalonDataManager:
             return Salon("New Salon")
 
         with open(self.__file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+            data: dict = json.load(f)
 
         salon = Salon(data["name"])
         salon.get_reception().set_balance(data.get("balance", 0.0))
 
+        m_data: dict
         for m_data in data.get("staff", []):
             salon.hire_staff(Master.from_dict(m_data))
 
+        i_data: dict
         for i_data in data.get("inventory", []):
             if i_data["type"] == "Cosmetics":
                 salon.add_to_inventory(Cosmetics.from_dict(i_data))
@@ -46,11 +51,12 @@ class SalonDataManager:
                     HairdressingEquipment.from_dict(i_data)
                 )
 
+        s_data: dict
         for s_data in data.get("services", []):
-            resources = [
+            raw_resources: list[InventoryItem | None] = [
                 salon.find_product(n) for n in s_data["resource_names"]
             ]
-            resources = [r for r in resources if r]  # filter None
+            resources: list[InventoryItem] = [r for r in raw_resources if r is not None]
 
             if s_data["type"] == "HairService":
                 salon.add_service(HairService.from_dict(s_data, resources))
@@ -59,10 +65,11 @@ class SalonDataManager:
                     CosmeticProcedure.from_dict(s_data, resources)
                 )
 
+        b_data: dict
         for b_data in data.get("bookings", []):
-            service = salon.find_service_by_name(b_data["service_name"])
+            service: Service | None = salon.find_service_by_name(b_data["service_name"])
 
-            master = next(
+            master: Master | None = next(
                 (
                     m for m in salon.get_staff()
                     if m.get_name() == b_data["master_name"] and
@@ -71,7 +78,7 @@ class SalonDataManager:
                 None
             )
 
-            if master and service:
+            if master is not None and service is not None:
                 salon.get_reception().add_booking(
                     Booking.from_dict(b_data, master, service)
                 )

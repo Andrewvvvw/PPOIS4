@@ -38,18 +38,18 @@ class Salon:
         self.__staff.append(master)
 
     def fire_staff(self, master: Master) -> None:
-        if master in self.__staff:
+        try:
             self.__staff.remove(master)
-        else:
+        except ValueError:
             raise StaffError(f"Master {master.get_name()} is not in staff")
 
     def add_service(self, service: Service) -> None:
         self.__services.append(service)
 
     def remove_service(self, target: Service) -> None:
-        if target in self.__services:
+        try:
             self.__services.remove(target)
-        else:
+        except ValueError:
             raise ServiceError(f"Target {target.get_name()} not found")
 
     def get_services(self) -> list[Service]:
@@ -136,11 +136,24 @@ class Salon:
         :param booking: Booking
         :return: None
         """
+        
+        booking_master: Master = booking.get_master()
+        booked_service: Service = booking.get_service()
+        if booking_master not in self.__staff:
+            raise StaffError(
+                f"Master {booking_master.get_name()} doesn't work here"
+            )
+
+        if booked_service not in self.__services:
+            raise ServiceError(
+                f"Service {booked_service.get_name()} isn't available"
+            )
+
         if booking.get_status() == BookingStatus.DONE:
             raise BookingStatusError("Booking is already completed")
 
-        service = booking.get_service()
-        service.perform()
+        service: Service = booking.get_service()
+        service.perform(self.__inventory)
 
         self.__reception.process_payment(service.get_price())
         booking.set_status(BookingStatus.DONE)
@@ -155,7 +168,7 @@ class Salon:
         """
         Операция продажи косметических средств.
         """
-        product = self.find_product(product_name)
+        product: InventoryItem | None = self.find_product(product_name)
         if product is None:
             raise InventoryItemError(
                 f"Product {product_name} isn't available in our salon"
@@ -174,7 +187,7 @@ class Salon:
 
         product.reduce_amount(quantity)
 
-        total_price = quantity * product.get_price()
+        total_price: float = quantity * product.get_price()
         self.__reception.process_payment(total_price)
 
         print(f"Sold {product.get_name()} with {quantity} item(s)")

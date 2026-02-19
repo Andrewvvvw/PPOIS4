@@ -1,5 +1,6 @@
 from src.entities.inventory.inventory_item import InventoryItem
 import random
+from typing import Self
 
 DESTROYING_CHANCE = 0.1
 
@@ -21,7 +22,7 @@ class HairdressingEquipment(InventoryItem):
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'HairdressingEquipment':
+    def from_dict(cls, data: dict) -> Self:
         return cls(
             name=data["name"],
             description=data["desc"],

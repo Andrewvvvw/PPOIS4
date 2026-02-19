@@ -1,6 +1,6 @@
 {
-    "name": "New Salon",
-    "balance": 260.0,
+    "name": "BEST SALON",
+    "balance": 500.0,
     "staff": [
         {
             "name": "Andrew",
@@ -8,7 +8,7 @@
             "spec": "Hair styling master"
         },
         {
-            "name": "Liza",
+            "name": "Liz",
             "age": 22,
             "spec": "Cosmetics master"
         }
@@ -18,27 +18,27 @@
             "type": "Cosmetics",
             "name": "Toner",
             "desc": "Recovers pH-balance",
-            "amount": 9,
+            "amount": 7,
             "price": 15.0
         },
         {
             "type": "Cosmetics",
             "name": "Serum",
             "desc": "For deep layers",
-            "amount": 0,
+            "amount": 8,
             "price": 20.0
         },
         {
             "type": "Equipment",
             "name": "Scissors",
             "desc": "for cut",
-            "amount": 5
+            "amount": 4
         },
         {
             "type": "Equipment",
             "name": "Hair Dryer",
             "desc": "for drying",
-            "amount": 3
+            "amount": 2
         }
     ],
     "services": [
@@ -64,18 +64,28 @@
     "bookings": [
         {
             "client": {
+                "name": "Lola",
+                "age": 20
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
                 "name": "Robert",
                 "age": 19
             },
             "master_name": "Andrew",
             "master_spec": "Hair styling master",
             "service_name": "Scissors cut",
-            "status": "Done"
+            "status": "Cancelled"
         },
         {
             "client": {
-                "name": "Artem",
-                "age": 19
+                "name": "Alina",
+                "age": 20
             },
             "master_name": "Andrew",
             "master_spec": "Hair styling master",
@@ -84,12 +94,92 @@
         },
         {
             "client": {
-                "name": "Artemdjdj",
-                "age": 19
+                "name": "Roman",
+                "age": 20
             },
             "master_name": "Andrew",
             "master_spec": "Hair styling master",
             "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Vladimir",
+                "age": 20
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Karina",
+                "age": 22
+            },
+            "master_name": "Liz",
+            "master_spec": "Cosmetics master",
+            "service_name": "Intense Hydration",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Alex",
+                "age": 21
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Fedor",
+                "age": 23
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Peter",
+                "age": 29
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Ilya",
+                "age": 24
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Pierre",
+                "age": 29
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Nastya",
+                "age": 23
+            },
+            "master_name": "Liz",
+            "master_spec": "Cosmetics master",
+            "service_name": "Intense Hydration",
             "status": "Done"
         }
     ]

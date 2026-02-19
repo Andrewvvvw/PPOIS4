@@ -1,5 +1,4 @@
 from src.entities.inventory.inventory_item import InventoryItem
-from src.entities.management.client import Client
 from src.entities.management.master import Master
 from src.utils.validator import validate_name
 from abc import ABC, abstractmethod
@@ -26,7 +25,7 @@ class Service(ABC):
         self._price: float = price
 
     @abstractmethod
-    def perform(self) -> None:
+    def perform(self, inventory: list[InventoryItem]) -> None:
         pass
 
     @abstractmethod

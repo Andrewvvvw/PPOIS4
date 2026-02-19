@@ -1,5 +1,6 @@
 from src.utils.masters_specialization import MastersSpecialization
 from src.utils.validator import validate_name, validate_age
+from typing import Self
 
 
 class Master:
@@ -61,7 +62,7 @@ class Master:
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'Master':
+    def from_dict(cls, data: dict) -> Self:
         return cls(
             name=data["name"],
             age=data["age"],

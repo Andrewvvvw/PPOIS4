@@ -1,6 +1,6 @@
 from src.entities.inventory.inventory_item import InventoryItem
 from src.exceptions.exceptions import PriceError
-
+from typing import Self
 
 class Cosmetics(InventoryItem):
     def __init__(
@@ -31,7 +31,7 @@ class Cosmetics(InventoryItem):
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'Cosmetics':
+    def from_dict(cls, data: dict) -> Self:
         return cls(
             name=data["name"],
             price=data["price"],

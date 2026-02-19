@@ -2,6 +2,7 @@ from src.entities.inventory.hairdressing_equipment import HairdressingEquipment
 from src.entities.management.master import Master
 from src.entities.services.service import Service
 from src.utils.masters_specialization import MastersSpecialization
+from typing import Self
 
 
 class HairService(Service):
@@ -32,9 +33,17 @@ class HairService(Service):
         for tool in equipment:
             self.add_equipment_item(tool)
 
-    def perform(self) -> None:
-        for equipment in self.__required_equipment:
-            equipment.use_equipment()
+    def perform(self, inventory: list[HairdressingEquipment]) -> None:
+        for req_equipment in self.__required_equipment:
+            real_item = next(
+                (
+                    i for i in inventory
+                    if i.get_name() == req_equipment.get_name()
+                ),
+                None
+            )
+            if real_item:
+                real_item.use_equipment()
 
     def can_perform_by(self, master: Master) -> bool:
         return master.get_specialization() in (
@@ -51,7 +60,7 @@ class HairService(Service):
         }
 
     @classmethod
-    def from_dict(cls, data: dict, resources: list) -> 'HairService':
+    def from_dict(cls, data: dict, resources: list) -> Self:
         return cls(
             name=data["name"],
             price=data["price"],

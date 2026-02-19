@@ -1,4 +1,5 @@
 from src.utils.validator import validate_name, validate_age
+from typing import Self
 
 
 class Client:
@@ -27,5 +28,5 @@ class Client:
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'Client':
+    def from_dict(cls, data: dict) -> Self:
         return cls(name=data["name"], age=data["age"])
