@@ -30,8 +30,8 @@ class Reception:
     def process_payment(self, amount: float) -> None:
         """
         Операция оплаты услуги/покупки косметики
-        :param amount: float
-        :return: None
+        param amount: float
+        return: None
         """
         if amount <= 0:
             raise ValueError('Amount to deposit must be positive')

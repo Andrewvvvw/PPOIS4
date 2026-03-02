@@ -1,0 +1,403 @@
+<?xml version="1.0" ?>
+<library>
+  <book>
+    <title>Чистый код</title>
+    <author>Мартин Р. К.</author>
+    <publisher>Питер</publisher>
+    <volumes>1</volumes>
+    <print_run>5000</print_run>
+    <total_volumes>5000</total_volumes>
+  </book>
+  <book>
+    <title>Война и мир</title>
+    <author>Толстой Л. Н.</author>
+    <publisher>АСТ</publisher>
+    <volumes>4</volumes>
+    <print_run>10000</print_run>
+    <total_volumes>40000</total_volumes>
+  </book>
+  <book>
+    <title>Преступление и наказание</title>
+    <author>Достоевский Ф. М.</author>
+    <publisher>Эксмо</publisher>
+    <volumes>1</volumes>
+    <print_run>7500</print_run>
+    <total_volumes>7500</total_volumes>
+  </book>
+  <book>
+    <title>1984</title>
+    <author>Оруэлл Дж. К.</author>
+    <publisher>Азбука</publisher>
+    <volumes>1</volumes>
+    <print_run>12000</print_run>
+    <total_volumes>12000</total_volumes>
+  </book>
+  <book>
+    <title>Алгоритмы: построение и анализ</title>
+    <author>Кормен Т. Х.</author>
+    <publisher>Вильямс</publisher>
+    <volumes>2</volumes>
+    <print_run>3000</print_run>
+    <total_volumes>6000</total_volumes>
+  </book>
+  <book>
+    <title>Мастер и Маргарита</title>
+    <author>Булгаков М. А.</author>
+    <publisher>Художественная литература</publisher>
+    <volumes>1</volumes>
+    <print_run>15000</print_run>
+    <total_volumes>15000</total_volumes>
+  </book>
+  <book>
+    <title>Совершенный код</title>
+    <author>Макконнелл С. В.</author>
+    <publisher>БХВ</publisher>
+    <volumes>1</volumes>
+    <print_run>2000</print_run>
+    <total_volumes>2000</total_volumes>
+  </book>
+  <book>
+    <title>Властелин колец</title>
+    <author>Толкин Дж. Р.</author>
+    <publisher>Мир книги</publisher>
+    <volumes>3</volumes>
+    <print_run>25000</print_run>
+    <total_volumes>75000</total_volumes>
+  </book>
+  <book>
+    <title>Идиот</title>
+    <author>Достоевский Ф. М.</author>
+    <publisher>Наука</publisher>
+    <volumes>2</volumes>
+    <print_run>5000</print_run>
+    <total_volumes>10000</total_volumes>
+  </book>
+  <book>
+    <title>Язык программирования C++</title>
+    <author>Страуструп Б. П.</author>
+    <publisher>Диалектика</publisher>
+    <volumes>1</volumes>
+    <print_run>1500</print_run>
+    <total_volumes>1500</total_volumes>
+  </book>
+  <book>
+    <title>Анна Каренина</title>
+    <author>Толстой Л. Н.</author>
+    <publisher>Дрофа</publisher>
+    <volumes>2</volumes>
+    <print_run>8000</print_run>
+    <total_volumes>16000</total_volumes>
+  </book>
+  <book>
+    <title>О дивный новый мир</title>
+    <author>Хаксли О. Л.</author>
+    <publisher>Текст</publisher>
+    <volumes>1</volumes>
+    <print_run>4500</print_run>
+    <total_volumes>4500</total_volumes>
+  </book>
+  <book>
+    <title>Паттерны проектирования</title>
+    <author>Гамма Э. К.</author>
+    <publisher>Питер</publisher>
+    <volumes>1</volumes>
+    <print_run>3500</print_run>
+    <total_volumes>3500</total_volumes>
+  </book>
+  <book>
+    <title>Братья Карамазовы</title>
+    <author>Достоевский Ф. М.</author>
+    <publisher>Радуга</publisher>
+    <volumes>3</volumes>
+    <print_run>6000</print_run>
+    <total_volumes>18000</total_volumes>
+  </book>
+  <book>
+    <title>Гарри Поттер и философский камень</title>
+    <author>Роулинг Дж. К.</author>
+    <publisher>Росмэн</publisher>
+    <volumes>1</volumes>
+    <print_run>50000</print_run>
+    <total_volumes>50000</total_volumes>
+  </book>
+  <book>
+    <title>Код: тайный язык информатики</title>
+    <author>Петцольд Ч. В.</author>
+    <publisher>Манн, Иванов и Фербер</publisher>
+    <volumes>1</volumes>
+    <print_run>4000</print_run>
+    <total_volumes>4000</total_volumes>
+  </book>
+  <book>
+    <title>Фауст</title>
+    <author>Гете И. В.</author>
+    <publisher>Просвещение</publisher>
+    <volumes>2</volumes>
+    <print_run>2000</print_run>
+    <total_volumes>4000</total_volumes>
+  </book>
+  <book>
+    <title>Рефакторинг</title>
+    <author>Фаулер М. Р.</author>
+    <publisher>Вильямс</publisher>
+    <volumes>1</volumes>
+    <print_run>2500</print_run>
+    <total_volumes>2500</total_volumes>
+  </book>
+  <book>
+    <title>Герой нашего времени</title>
+    <author>Лермонтов М. Ю.</author>
+    <publisher>Советский писатель</publisher>
+    <volumes>1</volumes>
+    <print_run>9000</print_run>
+    <total_volumes>9000</total_volumes>
+  </book>
+  <book>
+    <title>Программист-прагматик</title>
+    <author>Хант Э. В.</author>
+    <publisher>Лори</publisher>
+    <volumes>1</volumes>
+    <print_run>1800</print_run>
+    <total_volumes>1800</total_volumes>
+  </book>
+  <book>
+    <title>Мертвые души</title>
+    <author>Гоголь Н. В.</author>
+    <publisher>Молодая гвардия</publisher>
+    <volumes>1</volumes>
+    <print_run>11000</print_run>
+    <total_volumes>11000</total_volumes>
+  </book>
+  <book>
+    <title>Грокаем алгоритмы</title>
+    <author>Бхаргава А. Ю.</author>
+    <publisher>Питер</publisher>
+    <volumes>1</volumes>
+    <print_run>15000</print_run>
+    <total_volumes>15000</total_volumes>
+  </book>
+  <book>
+    <title>Отцы и дети</title>
+    <author>Тургенев И. С.</author>
+    <publisher>Вагриус</publisher>
+    <volumes>1</volumes>
+    <print_run>7000</print_run>
+    <total_volumes>7000</total_volumes>
+  </book>
+  <book>
+    <title>Искусство программирования</title>
+    <author>Кнут Д. Э.</author>
+    <publisher>Вильямс</publisher>
+    <volumes>7</volumes>
+    <print_run>1000</print_run>
+    <total_volumes>7000</total_volumes>
+  </book>
+  <book>
+    <title>Собачье сердце</title>
+    <author>Булгаков М. А.</author>
+    <publisher>Карапуз</publisher>
+    <volumes>1</volumes>
+    <print_run>13000</print_run>
+    <total_volumes>13000</total_volumes>
+  </book>
+  <book>
+    <title>CLR via C#</title>
+    <author>Рихтер Дж. С.</author>
+    <publisher>Питер</publisher>
+    <volumes>1</volumes>
+    <print_run>3000</print_run>
+    <total_volumes>3000</total_volumes>
+  </book>
+  <book>
+    <title>Воскресение</title>
+    <author>Толстой Л. Н.</author>
+    <publisher>Ника</publisher>
+    <volumes>1</volumes>
+    <print_run>5500</print_run>
+    <total_volumes>5500</total_volumes>
+  </book>
+  <book>
+    <title>Гарри Поттер и Тайная комната</title>
+    <author>Роулинг Дж. К.</author>
+    <publisher>Росмэн</publisher>
+    <volumes>1</volumes>
+    <print_run>45000</print_run>
+    <total_volumes>45000</total_volumes>
+  </book>
+  <book>
+    <title>Работа над собой</title>
+    <author>Станиславский К. С.</author>
+    <publisher>Искусство</publisher>
+    <volumes>2</volumes>
+    <print_run>3000</print_run>
+    <total_volumes>6000</total_volumes>
+  </book>
+  <book>
+    <title>Эффективный Java</title>
+    <author>Блох Дж. В.</author>
+    <publisher>Лори</publisher>
+    <volumes>1</volumes>
+    <print_run>2200</print_run>
+    <total_volumes>2200</total_volumes>
+  </book>
+  <book>
+    <title>Обломов</title>
+    <author>Гончаров И. А.</author>
+    <publisher>Мир</publisher>
+    <volumes>1</volumes>
+    <print_run>6500</print_run>
+    <total_volumes>6500</total_volumes>
+  </book>
+  <book>
+    <title>С++: Руководство для начинающих</title>
+    <author>Шилдт Г. Л.</author>
+    <publisher>ЭКОМ</publisher>
+    <volumes>1</volumes>
+    <print_run>4000</print_run>
+    <total_volumes>4000</total_volumes>
+  </book>
+  <book>
+    <title>Горе от ума</title>
+    <author>Грибоедов А. С.</author>
+    <publisher>Олимп</publisher>
+    <volumes>1</volumes>
+    <print_run>8500</print_run>
+    <total_volumes>8500</total_volumes>
+  </book>
+  <book>
+    <title>Предметно-ориентированное проектирование</title>
+    <author>Эванс Э. П.</author>
+    <publisher>Вильямс</publisher>
+    <volumes>1</volumes>
+    <print_run>1200</print_run>
+    <total_volumes>1200</total_volumes>
+  </book>
+  <book>
+    <title>Бесы</title>
+    <author>Достоевский Ф. М.</author>
+    <publisher>Центрполиграф</publisher>
+    <volumes>1</volumes>
+    <print_run>4800</print_run>
+    <total_volumes>4800</total_volumes>
+  </book>
+  <book>
+    <title>Автостопом по галактике</title>
+    <author>Адамс Д. Н.</author>
+    <publisher>АСТ</publisher>
+    <volumes>5</volumes>
+    <print_run>20000</print_run>
+    <total_volumes>100000</total_volumes>
+  </book>
+  <book>
+    <title>Гарри Поттер и узник Азкабана</title>
+    <author>Роулинг Дж. К.</author>
+    <publisher>Росмэн</publisher>
+    <volumes>1</volumes>
+    <print_run>42000</print_run>
+    <total_volumes>42000</total_volumes>
+  </book>
+  <book>
+    <title>Тихий Дон</title>
+    <author>Шолохов М. А.</author>
+    <publisher>Московский рабочий</publisher>
+    <volumes>4</volumes>
+    <print_run>30000</print_run>
+    <total_volumes>120000</total_volumes>
+  </book>
+  <book>
+    <title>Психология влияния</title>
+    <author>Чалдини Р. Б.</author>
+    <publisher>Эксмо</publisher>
+    <volumes>1</volumes>
+    <print_run>10000</print_run>
+    <total_volumes>10000</total_volumes>
+  </book>
+  <book>
+    <title>Замок</title>
+    <author>Кафка Ф. М.</author>
+    <publisher>Книжный сад</publisher>
+    <volumes>1</volumes>
+    <print_run>3500</print_run>
+    <total_volumes>3500</total_volumes>
+  </book>
+  <book>
+    <title>Введение в психоанализ</title>
+    <author>Фрейд З. П.</author>
+    <publisher>АСТ</publisher>
+    <volumes>1</volumes>
+    <print_run>6000</print_run>
+    <total_volumes>6000</total_volumes>
+  </book>
+  <book>
+    <title>Основы маркетинга</title>
+    <author>Котлер Ф. В.</author>
+    <publisher>Прогресс</publisher>
+    <volumes>1</volumes>
+    <print_run>12000</print_run>
+    <total_volumes>12000</total_volumes>
+  </book>
+  <book>
+    <title>Пикник на обочине</title>
+    <author>Стругацкий А. Н.</author>
+    <publisher>Текст</publisher>
+    <volumes>1</volumes>
+    <print_run>25000</print_run>
+    <total_volumes>25000</total_volumes>
+  </book>
+  <book>
+    <title>Три товарища</title>
+    <author>Ремарк Э. М.</author>
+    <publisher>Вагриус</publisher>
+    <volumes>1</volumes>
+    <print_run>18000</print_run>
+    <total_volumes>18000</total_volumes>
+  </book>
+  <book>
+    <title>Мы</title>
+    <author>Замятин Е. И.</author>
+    <publisher>ЭКСМО</publisher>
+    <volumes>1</volumes>
+    <print_run>5000</print_run>
+    <total_volumes>5000</total_volumes>
+  </book>
+  <book>
+    <title>Краткая история времени</title>
+    <author>Хокинг С. В.</author>
+    <publisher>Амфора</publisher>
+    <volumes>1</volumes>
+    <print_run>15000</print_run>
+    <total_volumes>15000</total_volumes>
+  </book>
+  <book>
+    <title>Старик и море</title>
+    <author>Хемингуэй Э. М.</author>
+    <publisher>Вече</publisher>
+    <volumes>1</volumes>
+    <print_run>7000</print_run>
+    <total_volumes>7000</total_volumes>
+  </book>
+  <book>
+    <title>Лолита</title>
+    <author>Набоков В. В.</author>
+    <publisher>Симпозиум</publisher>
+    <volumes>1</volumes>
+    <print_run>10000</print_run>
+    <total_volumes>10000</total_volumes>
+  </book>
+  <book>
+    <title>Алиса в Стране чудес</title>
+    <author>Кэрролл Л. Н.</author>
+    <publisher>Детская литература</publisher>
+    <volumes>1</volumes>
+    <print_run>30000</print_run>
+    <total_volumes>30000</total_volumes>
+  </book>
+  <book>
+    <title>Портрет Дориана Грея</title>
+    <author>Уайльд О. Ф.</author>
+    <publisher>Захаров</publisher>
+    <volumes>1</volumes>
+    <print_run>11500</print_run>
+    <total_volumes>11500</total_volumes>
+  </book>
+</library>

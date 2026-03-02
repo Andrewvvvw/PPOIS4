@@ -1,6 +1,6 @@
 {
     "name": "BEST SALON",
-    "balance": 500.0,
+    "balance": 635.0,
     "staff": [
         {
             "name": "Andrew",
@@ -11,6 +11,11 @@
             "name": "Liz",
             "age": 22,
             "spec": "Cosmetics master"
+        },
+        {
+            "name": "John",
+            "age": 25,
+            "spec": "Hair cutting master"
         }
     ],
     "inventory": [
@@ -18,21 +23,21 @@
             "type": "Cosmetics",
             "name": "Toner",
             "desc": "Recovers pH-balance",
-            "amount": 7,
+            "amount": 6,
             "price": 15.0
         },
         {
             "type": "Cosmetics",
             "name": "Serum",
             "desc": "For deep layers",
-            "amount": 8,
+            "amount": 5,
             "price": 20.0
         },
         {
             "type": "Equipment",
             "name": "Scissors",
             "desc": "for cut",
-            "amount": 4
+            "amount": 3
         },
         {
             "type": "Equipment",
@@ -181,6 +186,36 @@
             "master_spec": "Cosmetics master",
             "service_name": "Intense Hydration",
             "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Alex ",
+                "age": 18
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Konstantin",
+                "age": 22
+            },
+            "master_name": "John",
+            "master_spec": "Hair cutting master",
+            "service_name": "Scissors cut",
+            "status": "Done"
+        },
+        {
+            "client": {
+                "name": "Andrew",
+                "age": 23
+            },
+            "master_name": "Andrew",
+            "master_spec": "Hair styling master",
+            "service_name": "Scissors cut",
+            "status": "Cancelled"
         }
     ]
 }
