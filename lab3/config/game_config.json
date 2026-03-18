@@ -1,0 +1,124 @@
+{
+    "window":  {
+                   "width":  1280,
+                   "height":  800,
+                   "title":  "Minesweeper"
+               },
+    "fps":  60,
+    "cell_size":  32,
+    "colors":  {
+                   "background":  [
+                                      17,
+                                      24,
+                                      39
+                                  ],
+                   "panel":  [
+                                 31,
+                                 41,
+                                 55
+                             ],
+                   "text":  [
+                                229,
+                                231,
+                                235
+                            ],
+                   "accent":  [
+                                  34,
+                                  197,
+                                  94
+                              ],
+                   "danger":  [
+                                  239,
+                                  68,
+                                  68
+                              ],
+                   "hidden_cell":  [
+                                       75,
+                                       85,
+                                       99
+                                   ],
+                   "revealed_cell":  [
+                                         229,
+                                         231,
+                                         235
+                                     ],
+                   "flag_cell":  [
+                                     251,
+                                     146,
+                                     60
+                                 ],
+                   "mine_cell":  [
+                                     239,
+                                     68,
+                                     68
+                                 ],
+                   "grid_line":  [
+                                     107,
+                                     114,
+                                     128
+                                 ]
+               },
+    "difficulties":  {
+                         "beginner":  {
+                                          "label":  "Beginner 9x9 / 10",
+                                          "width":  9,
+                                          "height":  9,
+                                          "mines":  10,
+                                          "time_limit":  180,
+                                          "difficulty_base":  500
+                                      },
+                         "intermediate":  {
+                                              "label":  "Intermediate 16x16 / 40",
+                                              "width":  16,
+                                              "height":  16,
+                                              "mines":  40,
+                                              "time_limit":  600,
+                                              "difficulty_base":  1200
+                                          },
+                         "expert":  {
+                                        "label":  "Expert 30x16 / 99",
+                                        "width":  30,
+                                        "height":  16,
+                                        "mines":  99,
+                                        "time_limit":  1200,
+                                        "difficulty_base":  2500
+                                    }
+                     },
+    "timed_mode":  {
+                       "enabled":  true
+                   },
+    "records":  {
+                    "max_entries":  10
+                },
+    "scoring":  {
+                    "revealed_safe":  10,
+                    "time_left":  5,
+                    "wrong_flags":  15
+                },
+    "animations":  {
+                       "reveal_duration":  0.3,
+                       "explosion_duration":  0.7,
+                       "win_pulse_duration":  1.2,
+                       "win_pulse_scale":  1.06
+                   },
+    "audio":  {
+                  "master_volume":  0.8,
+                  "music_volume":  0.3,
+                  "sound_volume":  0.8,
+                  "music":  "assets/audio/bgm_loop.wav",
+                  "sounds":  {
+                                 "click":  "assets/audio/click.wav",
+                                 "flag":  "assets/audio/flag.wav",
+                                 "explosion":  "assets/audio/explosion.wav",
+                                 "win":  "assets/audio/win.wav"
+                             }
+              },
+    "help":  [
+                 "Открывайте клетки левой кнопкой мыши.",
+                 "Ставьте флаг правой кнопкой мыши.",
+                 "Число на клетке = количество мин вокруг.",
+                 "Победа: открыть все безопасные клетки.",
+                 "Поражение: открыть мину или дождаться 00:00 в режиме с таймером.",
+                 "Онлайн: Host/Join, одинаковый seed и сложность."
+             ]
+}

@@ -1,5 +1,12 @@
-from PySide6.QtWidgets import (QDialog, QVBoxLayout, QFormLayout, QLineEdit,
-                               QSpinBox, QDialogButtonBox, QMessageBox)
+from PySide6.QtWidgets import (
+    QDialog,
+    QVBoxLayout,
+    QFormLayout,
+    QLineEdit,
+    QSpinBox,
+    QDialogButtonBox,
+    QMessageBox
+)
 
 
 class AddBookDialog(QDialog):

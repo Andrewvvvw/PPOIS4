@@ -1,0 +1,7 @@
+.venv/
+.pytest_cache/
+.tmp_pytest/
+pytest-cache-files-*/
+__pycache__/
+**/__pycache__/
+**/.vscode/
