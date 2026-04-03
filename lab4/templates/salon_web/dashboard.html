@@ -1,0 +1,17 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>{{ stats.salon_name }} Dashboard</h1>
+    <div class="stats">
+        <div class="stat"><strong>Balance:</strong> {{ stats.balance }} BYN</div>
+        <div class="stat"><strong>Staff:</strong> {{ stats.staff_count }}</div>
+        <div class="stat"><strong>Inventory Items:</strong> {{ stats.inventory_count }}</div>
+        <div class="stat"><strong>Services:</strong> {{ stats.services_count }}</div>
+        <div class="stat"><strong>Bookings Total:</strong> {{ stats.bookings_total }}</div>
+        <div class="stat"><strong>Confirmed:</strong> {{ stats.bookings_confirmed }}</div>
+        <div class="stat"><strong>Done:</strong> {{ stats.bookings_done }}</div>
+        <div class="stat"><strong>Cancelled:</strong> {{ stats.bookings_cancelled }}</div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Staff</h1>
+    <table>
+        <thead>
+        <tr><th>#</th><th>Name</th><th>Age</th><th>Specialization</th></tr>
+        </thead>
+        <tbody>
+        {% for master in staff %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ master.get_name }}</td>
+                <td>{{ master.get_age }}</td>
+                <td>{{ master.get_specialization.value }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">No staff yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="inline-forms">
+    <div class="card">
+        <h2>Hire Master</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="hire">
+            {{ hire_form.as_p }}
+            <button type="submit">Hire</button>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Fire Master</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="fire">
+            {{ fire_form.as_p }}
+            <button type="submit">Fire</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

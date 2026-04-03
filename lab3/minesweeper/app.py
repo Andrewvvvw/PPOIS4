@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 import pygame
 
@@ -8,7 +9,7 @@ from typing import Any
 from .audio import AudioManager
 from .config import ConfigError, load_game_config, load_network_config, project_paths, records_path
 from .records import Leaderboard
-
+from .ui_scenes import MenuScene
 
 @dataclass(slots=True)
 class RuntimeState:
@@ -59,8 +60,6 @@ class MinesweeperApp:
 
     def run(self) -> None:
 
-        from .ui_scenes import MenuScene
-
         self.set_scene(MenuScene(self))
         fps = int(self.game_config["fps"])
 
@@ -91,7 +90,7 @@ class MinesweeperApp:
     def shutdown(self) -> None:
         try:
             self.audio.stop_music()
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
 
         pygame.quit()
@@ -103,18 +102,12 @@ def run_game() -> int:
     except ConfigError as exc:
         print(f"[CONFIG ERROR] {exc}")
         return 1
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         print(f"[BOOT ERROR] {exc}")
         return 1
 
     app.run()
     return 0
 
-
-from typing import TYPE_CHECKING
-
 if TYPE_CHECKING:
     from .game_scene import BaseScene
-
-
-

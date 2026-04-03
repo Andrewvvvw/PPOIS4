@@ -1,0 +1,67 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Services</h1>
+    <table>
+        <thead>
+        <tr><th>#</th><th>Name</th><th>Price</th><th>Resources</th></tr>
+        </thead>
+        <tbody>
+        {% for service in services %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ service.get_name }}</td>
+                <td>{{ service.get_price }} BYN</td>
+                <td>
+                    {% for resource in service.get_equipment %}
+                        {{ resource.get_name }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        none
+                    {% endfor %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">No services.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="inline-forms">
+    <div class="card">
+        <h2>Add Service</h2>
+        <p>Hair resources:</p>
+        <ul>
+            {% for item in equipment %}
+                <li>{{ forloop.counter }}. {{ item.get_name }}</li>
+            {% empty %}
+                <li>No equipment in inventory.</li>
+            {% endfor %}
+        </ul>
+        <p>Cosmetic resources:</p>
+        <ul>
+            {% for item in cosmetics %}
+                <li>{{ forloop.counter }}. {{ item.get_name }}</li>
+            {% empty %}
+                <li>No cosmetics in inventory.</li>
+            {% endfor %}
+        </ul>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add">
+            {{ add_form.as_p }}
+            <button type="submit">Add</button>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Remove Service</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="remove">
+            {{ remove_form.as_p }}
+            <button type="submit">Remove</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

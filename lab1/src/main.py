@@ -1,17 +1,18 @@
+﻿from pathlib import Path
+
+from salon_core.application.repositories.json_repository import JsonSalonRepository
+from salon_core.application.service import SalonAppService
 from src.interface.cli import SalonCLI
-from src.utils.data_manager import SalonDataManager
-from src.entities.salon import Salon
 
-def main():
-    data_manager: SalonDataManager = SalonDataManager("salon_save.json")
-    salon: Salon = data_manager.load()
 
-    cli: SalonCLI = SalonCLI(salon)
+def main() -> None:
+    save_path = Path(__file__).resolve().parent / "salon_save.json"
+    repository = JsonSalonRepository(str(save_path), default_salon_name="BEST SALON")
+    app_service = SalonAppService(repository)
 
-    try:
-        cli.run()
-    finally:
-        data_manager.save(salon)
+    cli = SalonCLI(app_service)
+    cli.run()
+
 
 if __name__ == "__main__":
     main()

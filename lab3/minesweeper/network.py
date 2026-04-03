@@ -115,7 +115,7 @@ class NetworkPeer:
                     self._event_queue.put(message)
             except socket.timeout:
                 continue
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 self._event_queue.put({"type": "system", "event": "error", "message": str(exc)})
                 self._running = False
                 self._connected = False
@@ -148,7 +148,7 @@ class NetworkPeer:
         if self._socket is not None:
             try:
                 self.send({"type": "disconnect", "name": self.username})
-            except Exception:  # noqa: BLE001
+            except Exception:
                 pass
             try:
                 self._socket.shutdown(socket.SHUT_RDWR)

@@ -1,29 +1,29 @@
-import sys
+﻿import sys
 from typing import Callable
 
-from entities.inventory.inventory_item import InventoryItem
-from src.entities.management.booking import Booking
-from src.entities.salon import Salon
-from src.utils.booking_status import BookingStatus
-from src.utils.validator import validate_name, validate_age
-from src.entities.management.master import Master
-from src.utils.masters_specialization import MastersSpecialization
-from src.entities.inventory.cosmetics import Cosmetics
-from src.entities.inventory.hairdressing_equipment import HairdressingEquipment
-from src.entities.services.hair_service import HairService
-from src.entities.services.cosmetic_procedure import CosmeticProcedure
-from src.entities.management.client import Client
-from src.entities.services.service import Service
+from salon_core.application.errors import AppServiceError
+from salon_core.application.service import SalonAppService
+from salon_core.entities.inventory.cosmetics import Cosmetics
+from salon_core.entities.inventory.hairdressing_equipment import HairdressingEquipment
+from salon_core.entities.inventory.inventory_item import InventoryItem
+from salon_core.entities.management.booking import Booking
+from salon_core.entities.management.master import Master
+from salon_core.entities.services.cosmetic_procedure import CosmeticProcedure
+from salon_core.entities.services.hair_service import HairService
+from salon_core.entities.services.service import Service
+from salon_core.utils.booking_status import BookingStatus
+from salon_core.utils.masters_specialization import MastersSpecialization
+from salon_core.utils.validator import validate_age, validate_name
 
 
 class SalonCLI:
-    def __init__(self, salon: Salon) -> None:
-        self.__salon = salon
+    def __init__(self, app_service: SalonAppService) -> None:
+        self.__app_service = app_service
         self.__is_running: bool = True
 
     def run(self) -> None:
         print(
-            f"\nWelcome to '{self.__salon.get_name()}'"
+            f"\nWelcome to '{self.__app_service.get_salon_name()}'"
             f" Salon Management System!"
         )
 
@@ -59,8 +59,6 @@ class SalonCLI:
             print("Invalid input. Please try again.")
 
     def __handle_hire_staff(self) -> None:
-        """Gathers data to create and hire a new Master."""
-
         name: str = input("Enter master's name: ")
         age = int(input("Enter master's age: "))
 
@@ -72,13 +70,11 @@ class SalonCLI:
         spec_choice = int(input("Select specialization (number): "))
         selected_spec: MastersSpecialization = specs[spec_choice - 1]
 
-        new_master = Master(name, age, selected_spec)
-        self.__salon.hire_staff(new_master)
+        self.__app_service.hire_master(name, age, selected_spec)
         print(f"Master {name} has been successfully hired!")
 
     def __handle_fire_staff(self) -> None:
-        """Logic to remove a master from the staff list."""
-        staff: list[Master] = self.__salon.get_staff()
+        staff: list[Master] = self.__app_service.list_staff()
         if not staff:
             print("Nobody to fire. The staff list is empty.")
             return
@@ -91,16 +87,11 @@ class SalonCLI:
             )
 
         choice = int(input("Select master to fire (number): "))
-        if 1 <= choice <= len(staff):
-            target_master: Master = staff[choice - 1]
-            self.__salon.fire_staff(target_master)
-            print(f"Master {target_master.get_name()} has been fired.")
-        else:
-            raise ValueError("Invalid staff member selection.")
+        self.__app_service.fire_master(choice - 1)
+        print(f"Master {staff[choice - 1].get_name()} has been fired.")
 
     def __show_staff(self) -> None:
-        """Displays all masters in the salon."""
-        staff: list[Master] = self.__salon.get_staff()
+        staff: list[Master] = self.__app_service.list_staff()
         if not staff:
             print("No masters hired yet.")
             return
@@ -110,7 +101,6 @@ class SalonCLI:
             print(f"- {master}")
 
     def __staff_menu(self) -> None:
-
         while True:
             print("\n--- STAFF MANAGEMENT ---")
             print("1. Show Staff List")
@@ -150,15 +140,12 @@ class SalonCLI:
                 break
 
     def __view_inventory(self) -> None:
-        """Shows inventory with specific details for cosmetics and equipment."""
-
-        all_items: list[InventoryItem] = self.__salon.get_inventory()
+        all_items: list[InventoryItem] = self.__app_service.list_inventory()
         if not all_items:
             print("\nInventory is empty.")
             return
 
         print("\n--- SALON INVENTORY REPORT ---")
-        item: InventoryItem
         for item in all_items:
             name: str = item.get_name()
             amount: int = item.get_amount()
@@ -170,61 +157,71 @@ class SalonCLI:
                     f"Stock: {amount} | "
                     f"Price: {price}BYN"
                 )
-
             elif isinstance(item, HairdressingEquipment):
                 print(f"[Equipment] {name} | Stock: {amount}")
 
     def __handle_sale(self) -> None:
-        """Gathers input and calls the salon's sell_product method."""
         name: str = input("Enter product name: ")
         qty = int(input("Enter quantity to sell: "))
-        self.__salon.sell_product(name, qty)
-        print(f"Current Salon Balance: {self.__salon.check_balance()}BYN")
+        self.__app_service.sell_product(name, qty)
+        print(f"Current Salon Balance: {self.__app_service.get_balance()}BYN")
 
     def __handle_restock(self) -> None:
-        """Adds quantity to existing items or creates a new InventoryItem."""
         name: str = input("Enter item name: ")
-        existing_item: InventoryItem | None = self.__salon.find_product(name)
+        existing_item: InventoryItem | None = next(
+            (
+                item
+                for item in self.__app_service.list_inventory()
+                if item.get_name() == name
+            ),
+            None,
+        )
 
-        if existing_item:
-
+        if existing_item is not None:
             print(
                 f"Item '{name}' found. "
                 f"Current amount: {existing_item.get_amount()}"
             )
             refill = int(input("How many units to add? "))
-            new_total: int = existing_item.get_amount() + refill
-            existing_item.set_amount(new_total)
-            print(
-                f"Successfully restocked. "
-                f"New total: {existing_item.get_amount()}"
+            self.__app_service.restock_or_create_item(
+                name=name,
+                refill_amount=refill,
             )
+            updated = next(
+                (
+                    item
+                    for item in self.__app_service.list_inventory()
+                    if item.get_name() == name
+                ),
+                None,
+            )
+            total = updated.get_amount() if updated is not None else "unknown"
+            print(f"Successfully restocked. New total: {total}")
+            return
 
-        else:
-            print(f"Item '{name}' not found. Let's create a new one.")
-            self.__create_new_inventory_item(name)
+        print(f"Item '{name}' not found. Let's create a new one.")
+        self.__create_new_inventory_item(name)
 
     def __create_new_inventory_item(self, name: str) -> None:
-        """Helper to instantiate and add a new item to salon."""
-
         print("Select category: 1. Cosmetics, 2. Hairdressing Equipment")
         cat: str = input("Choice: ").strip()
         desc: str = input("Description: ")
         amount = int(input("Initial amount: "))
 
+        price = None
         if cat == "1":
             price = float(input("Price for sale: "))
-            new_item = Cosmetics(name, price, desc, amount)
-        elif cat == "2":
-            new_item = HairdressingEquipment(name, desc, amount)
-        else:
-            raise ValueError("Invalid category selected.")
 
-        self.__salon.add_to_inventory(new_item)
+        self.__app_service.restock_or_create_item(
+            name=name,
+            category=cat,
+            description=desc,
+            initial_amount=amount,
+            price=price,
+        )
         print(f"New item '{name}' added to salon inventory.")
 
     def __service_menu(self) -> None:
-        """Submenu for managing salon services."""
         while True:
             print("\n--- SERVICE MANAGEMENT ---")
             print("1. Show Available Services")
@@ -246,9 +243,7 @@ class SalonCLI:
                 print("Invalid input.")
 
     def __show_services(self) -> None:
-        """Displays services with their associated inventory requirements."""
-
-        services: list[Service] = self.__salon.get_services()
+        services: list[Service] = self.__app_service.list_services()
         if not services:
             print("\nNo services available.")
             return
@@ -261,7 +256,7 @@ class SalonCLI:
             )
 
             resources: list[str] = [
-                e.get_name() for e in service.get_equipment()
+                item.get_name() for item in service.get_equipment()
             ]
             if isinstance(service, HairService):
                 resource_label = "Equipment"
@@ -275,60 +270,44 @@ class SalonCLI:
             print(f"   Required {resource_label}: {resource_str}")
 
     def __handle_add_service(self) -> None:
-        """Gathers data to create a service with linked inventory items."""
-
         name = input("Service name: ")
         price = float(input("Service price: "))
         print("\nService Type: 1. Hair Service, 2. Cosmetic Procedure")
         s_type = input("Choice: ").strip()
 
-        all_inventory: list[InventoryItem] = self.__salon.get_inventory()
+        all_inventory: list[InventoryItem] = self.__app_service.list_inventory()
 
         if s_type == "1":
             equipment_list: list[HairdressingEquipment] = [
-                i for i in all_inventory
-                    if isinstance(i, HairdressingEquipment)
+                item for item in all_inventory if isinstance(item, HairdressingEquipment)
             ]
             if not equipment_list:
-                print(
-                    "Warning: No equipment found in inventory."
-                    " Add equipment first."
-                )
-
-            selected_equipment: list[HairdressingEquipment]\
-                = self.__select_items_from_list(
+                print("Warning: No equipment found in inventory. Add equipment first.")
+            selected_indexes: list[int] = self.__select_items_from_list(
                 equipment_list,
-                "equipment"
+                "equipment",
             )
-            new_service = HairService(name, price, selected_equipment)
+            self.__app_service.add_service(name, price, "hair", selected_indexes)
 
         elif s_type == "2":
             cosmetics_list: list[Cosmetics] = [
-                i for i in all_inventory
-                    if isinstance(i, Cosmetics)
+                item for item in all_inventory if isinstance(item, Cosmetics)
             ]
             if not cosmetics_list:
-                print(
-                    "Warning: No cosmetics found in inventory. "
-                    "Add cosmetics first."
-                )
+                print("Warning: No cosmetics found in inventory. Add cosmetics first.")
 
-            selected_cosmetics: list[Cosmetics]\
-                = self.__select_items_from_list(
+            selected_indexes: list[int] = self.__select_items_from_list(
                 cosmetics_list,
-                "cosmetics"
+                "cosmetics",
             )
-
-            new_service = CosmeticProcedure(name, price, selected_cosmetics)
+            self.__app_service.add_service(name, price, "cosmetic", selected_indexes)
         else:
             raise ValueError("Invalid service type.")
 
-        self.__salon.add_service(new_service)
         print(f"Service '{name}' added with linked resources!")
 
     @staticmethod
-    def __select_items_from_list(items: list, item_label: str) -> list:
-        """Helper to select multiple items from a list by index."""
+    def __select_items_from_list(items: list, item_label: str) -> list[int]:
         if not items:
             return []
 
@@ -340,38 +319,29 @@ class SalonCLI:
             f"Enter numbers of {item_label} to link "
             f"(comma separated, e.g., 1,3):"
         )
-        choices = input("Selection: ").split(',')
+        choices = input("Selection: ").split(",")
 
         selected = []
-        for c in choices:
-            idx = int(c.strip()) - 1
+        for choice in choices:
+            idx = int(choice.strip()) - 1
             if 0 <= idx < len(items):
-                selected.append(items[idx])
+                selected.append(idx)
         return selected
 
     def __handle_remove_service(self) -> None:
-        """Removes a service from the salon's list by its index."""
-        services: list[Service] = self.__salon.get_services()
+        services: list[Service] = self.__app_service.list_services()
         if not services:
             print("Nothing to remove.")
             return
 
         self.__show_services()
 
-        def action():
-            choice_str = input("Select service to remove (number): ")
-            choice = int(choice_str)
-            if 1 <= choice <= len(services):
-                target: Service = services[choice - 1]
-                self.__salon.remove_service(target)
-                print(f"Service '{target.get_name()}' removed.")
-            else:
-                raise ValueError("Invalid service selection.")
-
-        self.__safe_execute(action)
+        choice_str = input("Select service to remove (number): ")
+        choice = int(choice_str)
+        self.__app_service.remove_service(choice - 1)
+        print(f"Service '{services[choice - 1].get_name()}' removed.")
 
     def __booking_menu(self) -> None:
-        """Submenu for booking and service execution."""
         while True:
             print("\n--- BOOKING & SERVICES ---")
             print("1. Create New Booking")
@@ -393,71 +363,54 @@ class SalonCLI:
                 print("Invalid input.")
 
     def __handle_create_booking(self) -> None:
-        """Collects data and creates a booking entry."""
-
         client_name: str = input("Enter client name: ")
         validate_name(client_name)
         client_age: int = int(input("Enter client age: "))
         validate_age(client_age)
-        client = Client(client_name, client_age)
 
-        staff: list[Master] = self.__salon.get_staff()
-        if not staff: raise ValueError("No masters available.")
+        staff: list[Master] = self.__app_service.list_staff()
+        if not staff:
+            raise ValueError("No masters available.")
         print("\nSelect Master:")
-        for i, m in enumerate(staff, 1):
-            print(f"{i}. {m.get_name()} ({m.get_specialization().value})")
+        for i, master in enumerate(staff, 1):
+            print(f"{i}. {master.get_name()} ({master.get_specialization().value})")
         m_idx = int(input("Choice: ")) - 1
-        if m_idx < 0 or m_idx >= len(staff):
-            raise ValueError("Invalid master selection.")
-        master: Master = staff[m_idx]
 
-        services: list[Service] = self.__salon.get_services()
-        if not services: raise ValueError("No services available.")
+        services: list[Service] = self.__app_service.list_services()
+        if not services:
+            raise ValueError("No services available.")
         print("\nSelect Service:")
-        for i, s in enumerate(services, 1):
-            print(f"{i}. {s.get_name()} ({s.get_price()}BYN)")
+        for i, service in enumerate(services, 1):
+            print(f"{i}. {service.get_name()} ({service.get_price()}BYN)")
         s_idx = int(input("Choice: ")) - 1
-        if s_idx < 0 or s_idx >= len(services):
-            raise ValueError("Invalid service selection.")
-        service: Service = services[s_idx]
 
-        self.__salon.make_booking(client, master, service)
-        print(f"Successfully booked {service.get_name()} for {client_name}.")
+        self.__app_service.create_booking(client_name, client_age, m_idx, s_idx)
+        print(f"Successfully booked {services[s_idx].get_name()} for {client_name}.")
 
     def __handle_execute_service(self) -> None:
-        """Executes the service associated with a booking."""
-        all_bookings: list[Booking] = self.__salon.get_bookings()
-        if not all_bookings:
-            print("No bookings found.")
-            return
-        confirmed_bookings: list[Booking] = [
-            b for b in all_bookings
-            if b.get_status() == BookingStatus.CONFIRMED
-        ]
+        confirmed_bookings: list[Booking] = self.__app_service.list_confirmed_bookings()
 
         if not confirmed_bookings:
             print("\nNo confirmed bookings found.")
             return
 
         print("\nSelect Booking to Execute:")
-        for i, b in enumerate(confirmed_bookings, 1):
+        for i, booking in enumerate(confirmed_bookings, 1):
             print(
-                f"{i}. {b.get_client().get_name()} - "
-                f"{b.get_service().get_name()}"
+                f"{i}. {booking.get_client().get_name()} - "
+                f"{booking.get_service().get_name()}"
             )
 
         idx = int(input("Choice: ")) - 1
-        if idx < 0 or idx >= len(confirmed_bookings):
-            raise ValueError("Invalid booking selection.")
         target_booking: Booking = confirmed_bookings[idx]
 
-        self.__salon.complete_booking(target_booking)
+        self.__app_service.execute_booking(idx)
         service: Service = target_booking.get_service()
         print(f"Service '{service.get_name()}' completed!")
 
         print("--- Inventory Items Used ---")
         equipment: list[str] = [
-            e.get_name() for e in service.get_equipment()
+            item.get_name() for item in service.get_equipment()
         ]
         print(
             f"Equipment used: "
@@ -465,45 +418,36 @@ class SalonCLI:
         )
 
         earned: float = service.get_price()
-        current_balance: float = self.__salon.check_balance()
+        current_balance: float = self.__app_service.get_balance()
         print(f"Money earned: {earned}BYN")
         print(f"Current Salon Balance: {current_balance}BYN")
 
     def __handle_cancel_booking(self) -> None:
-        """Sets booking status to CANCELLED."""
-
-        active_bookings: list[Booking] = [
-            b for b in self.__salon.get_all_bookings()
-            if b.get_status() == BookingStatus.CONFIRMED
-        ]
+        active_bookings: list[Booking] = self.__app_service.list_confirmed_bookings()
 
         if not active_bookings:
             print("\nNo confirmed bookings to cancel.")
             return
 
         print("\nSelect Booking to Cancel:")
-        for i, b in enumerate(active_bookings, 1):
+        for i, booking in enumerate(active_bookings, 1):
             print(
-                f"{i}. {b.get_client().get_name()} - "
-                f"{b.get_service().get_name()}"
+                f"{i}. {booking.get_client().get_name()} - "
+                f"{booking.get_service().get_name()}"
             )
 
         idx = int(input("Choice: ")) - 1
-        if 0 <= idx < len(active_bookings):
-            target_booking: Booking = active_bookings[idx]
-            target_booking.set_status(BookingStatus.CANCELLED)
-            print(
-                f"Booking for {target_booking.get_client().get_name()}"
-                f" has been CANCELLED."
-            )
-        else:
-            raise ValueError("Invalid selection.")
+        target_booking: Booking = active_bookings[idx]
+        self.__app_service.cancel_booking(idx)
+        print(
+            f"Booking for {target_booking.get_client().get_name()}"
+            f" has been CANCELLED."
+        )
 
     def __finance_menu(self) -> None:
-        """Submenu for financial reports and history."""
         while True:
             print("\n--- FINANCE & HISTORY ---")
-            print(f"Current Balance: {self.__salon.check_balance()}BYN")
+            print(f"Current Balance: {self.__app_service.get_balance()}BYN")
             print("1. View Bookings History")
             print("0. Back to Main Menu")
 
@@ -514,38 +458,28 @@ class SalonCLI:
                 break
 
     def __show_history(self) -> None:
-        """Shows only bookings with status DONE OR CANCELLED."""
-
-        all_bookings: list[Booking] = self.__salon.get_all_bookings()
-        bookings: list[Booking] = [
-            b
-            for b in all_bookings
-            if b.get_status() == BookingStatus.DONE or
-               b.get_status() == BookingStatus.CANCELLED
-        ]
+        bookings: list[Booking] = self.__app_service.get_booking_history()
 
         if not bookings:
             print("\nNo bookings in history.")
             return
 
         print("\n--- BOOKINGS HISTORY ---")
-        for b in bookings:
-            print(f"Client: {b.get_client().get_name()} | "
-                  f"Service: {b.get_service().get_name()} | "
-                  f"Master: {b.get_master().get_name()} | "
-                  f"Price: {b.get_service().get_price()}BYN | "
-                  f"Status: {b.get_status().value}"
-                  )
+        for booking in bookings:
+            print(
+                f"Client: {booking.get_client().get_name()} | "
+                f"Service: {booking.get_service().get_name()} | "
+                f"Master: {booking.get_master().get_name()} | "
+                f"Price: {booking.get_service().get_price()}BYN | "
+                f"Status: {booking.get_status().value}"
+            )
 
     @staticmethod
     def __safe_execute(action: Callable[[], None]) -> None:
-        """
-        Wrapper to catch and display business logic errors without crashing.
-        """
         try:
             action()
-        except Exception as e:
-            print(f"\n[SALON ERROR]: {e}")
+        except (AppServiceError, Exception) as error:
+            print(f"\n[SALON ERROR]: {error}")
 
     def __exit_app(self) -> None:
         print("Exiting... Have a nice day!")

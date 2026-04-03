@@ -1,0 +1,57 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Inventory</h1>
+    <p><strong>Current Balance:</strong> {{ balance }} BYN</p>
+    <table>
+        <thead>
+        <tr><th>#</th><th>Type</th><th>Name</th><th>Description</th><th>Amount</th><th>Price</th></tr>
+        </thead>
+        <tbody>
+        {% for item in inventory_rows %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{% if item.price %}{{ item.price }}{% else %}-{% endif %}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">Inventory is empty.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="inline-forms">
+    <div class="card">
+        <h2>Sell Product</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="sell">
+            {{ sell_form.as_p }}
+            <button type="submit">Sell</button>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Restock Existing Item</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="restock">
+            {{ restock_form.as_p }}
+            <button type="submit">Restock</button>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Create New Item</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create">
+            {{ create_form.as_p }}
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

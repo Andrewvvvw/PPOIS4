@@ -6,7 +6,7 @@ import pygame_gui
 import random
 import socket
 
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from .game_scene import BaseScene, GameScene
 from .network import NetworkOptions, NetworkPeer
@@ -707,9 +707,6 @@ def _resolve_local_ip() -> str:
         return ip
     except OSError:
         return "127.0.0.1"
-
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .app import MinesweeperApp

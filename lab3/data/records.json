@@ -1,44 +1,16 @@
 [
   {
-    "name": "Andrewvvvw",
-    "score": 2015,
+    "name": "Robert",
+    "score": 1845,
     "difficulty": "beginner",
-    "time_left": 161,
-    "played_at": "2026-03-16T12:56:19.976687+00:00"
+    "time_left": 127,
+    "played_at": "2026-03-20T07:51:50.059393+00:00"
   },
   {
     "name": "Andrew",
-    "score": 1955,
+    "score": 1055,
     "difficulty": "beginner",
     "time_left": 149,
     "played_at": "2026-03-14T17:38:46.537505+00:00"
-  },
-  {
-    "name": "Andrewvvvw",
-    "score": 1850,
-    "difficulty": "beginner",
-    "time_left": 128,
-    "played_at": "2026-03-07T08:58:57.973825+00:00"
-  },
-  {
-    "name": "Player",
-    "score": 1825,
-    "difficulty": "beginner",
-    "time_left": 123,
-    "played_at": "2026-03-14T16:02:48.916254+00:00"
-  },
-  {
-    "name": "Player",
-    "score": 1735,
-    "difficulty": "beginner",
-    "time_left": 105,
-    "played_at": "2026-03-07T09:00:51.753350+00:00"
-  },
-  {
-    "name": "Player",
-    "score": 1725,
-    "difficulty": "beginner",
-    "time_left": 103,
-    "played_at": "2026-03-14T15:38:51.323170+00:00"
   }
 ]

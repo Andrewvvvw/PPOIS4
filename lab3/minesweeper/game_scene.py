@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import pygame
 import pygame_gui
@@ -38,8 +38,6 @@ def _ui_scenes():
 
 
 class BaseScene:
-    _fonts_preloaded = False
-
     def __init__(self, app: "MinesweeperApp"):
         self.app = app
         self.next_scene: BaseScene | None = None
@@ -49,20 +47,16 @@ class BaseScene:
             self.ui_manager = pygame_gui.UIManager(app.screen.get_size(), str(theme_path))
         else:
             self.ui_manager = pygame_gui.UIManager(app.screen.get_size())
-        if not BaseScene._fonts_preloaded:
-            try:
-                self.ui_manager.add_font_paths("arial", "C:/Windows/Fonts/arial.ttf")
-                self.ui_manager.preload_fonts(
-                    [
-                        {"name": "arial", "point_size": 18, "style": "regular", "antialiased": 1},
-                        {"name": "arial", "point_size": 18, "style": "bold", "antialiased": 1},
-                        {"name": "arial", "point_size": 20, "style": "regular", "antialiased": 1},
-                        {"name": "arial", "point_size": 20, "style": "bold", "antialiased": 1},
-                    ]
-                )
-            except Exception:
-                pass
-            BaseScene._fonts_preloaded = True
+        try:
+            self.ui_manager.add_font_paths("arial", "C:/Windows/Fonts/arial.ttf")
+            self.ui_manager.preload_fonts(
+                [
+                    {"name": "arial", "point_size": 18, "style": "bold", "antialiased": "1"},
+                    {"name": "arial", "point_size": 20, "style": "bold", "antialiased": "1"},
+                ]
+            )
+        except Exception:
+            pass
 
     def switch(self, scene: "BaseScene") -> None:
         self.next_scene = scene
@@ -493,7 +487,7 @@ class GameScene(BaseScene):
         colors = self.app.game_config["colors"]
         screen.fill(tuple(colors["background"]))
 
-        title = f"Сапёр | {self.diff_cfg['label']} | seed={self.seed}"
+        title = f"Сапёр | {self.diff_cfg['label']}"
         header = self.app.font(26, bold=True).render(title, True, tuple(colors["text"]))
         screen.blit(header, (40, 30))
 
@@ -501,13 +495,9 @@ class GameScene(BaseScene):
         timer = self.app.font(24).render(timer_text, True, tuple(colors["text"]))
         screen.blit(timer, (40, 70))
 
-        score_text = f"Счёт: {self.current_score}"
-        score = self.app.font(24).render(score_text, True, tuple(colors["text"]))
-        screen.blit(score, (40, 100))
-
         if self.mode == "online" and self.remote_state is not None:
             other = self.app.font(20).render(
-                f"Соперник: {self.remote_name} | Очки: {self.remote_state.get('score', 0)}",
+                f"Соперник: {self.remote_name}",
                 True,
                 tuple(colors["accent"]),
             )
@@ -581,9 +571,6 @@ class GameScene(BaseScene):
                 tuple(colors["text"]),
                 130,
             )
-
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .app import MinesweeperApp

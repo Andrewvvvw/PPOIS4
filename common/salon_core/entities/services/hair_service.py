@@ -1,0 +1,78 @@
+﻿from salon_core.entities.inventory.hairdressing_equipment import HairdressingEquipment
+from salon_core.entities.management.master import Master
+from salon_core.entities.services.service import Service
+from salon_core.utils.masters_specialization import MastersSpecialization
+from typing import Self
+
+
+class HairService(Service):
+    def __init__(
+            self,
+            name: str,
+            price: float,
+            required_equipment: list[HairdressingEquipment]
+    ) -> None:
+        super().__init__(name, price)
+        self.set_required_equipment(required_equipment)
+
+    def set_required_equipment(
+            self,
+            hairdressing_equipment: list[HairdressingEquipment]
+    ) -> None:
+        for item in hairdressing_equipment:
+            if not isinstance(item, HairdressingEquipment):
+                raise TypeError(
+                    "HairService requires only HairdressingEquipment resources"
+                )
+        self.__required_equipment: list[HairdressingEquipment] = (
+            hairdressing_equipment
+        )
+
+    def get_equipment(self) -> list[HairdressingEquipment]:
+        return self.__required_equipment.copy()
+
+    def add_equipment_item(self, equipment: HairdressingEquipment) -> None:
+        if not isinstance(equipment, HairdressingEquipment):
+            raise TypeError(
+                "HairService requires only HairdressingEquipment resources"
+            )
+        self.__required_equipment.append(equipment)
+
+    def add_equipment(self, equipment: list[HairdressingEquipment]) -> None:
+        for tool in equipment:
+            self.add_equipment_item(tool)
+
+    def perform(self, inventory: list[HairdressingEquipment]) -> None:
+        for req_equipment in self.__required_equipment:
+            real_item = next(
+                (
+                    i for i in inventory
+                    if i.get_name() == req_equipment.get_name()
+                ),
+                None
+            )
+            if real_item:
+                real_item.use_equipment()
+
+    def can_perform_by(self, master: Master) -> bool:
+        return master.get_specialization() in (
+            MastersSpecialization.HAIR_STYLING,
+            MastersSpecialization.HAIR_CUTTING
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "type": "HairService",
+            "name": self.get_name(),
+            "price": self.get_price(),
+            "resource_names": [r.get_name() for r in self.get_equipment()]
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict, resources: list) -> Self:
+        return cls(
+            name=data["name"],
+            price=data["price"],
+            required_equipment=resources
+        )
+

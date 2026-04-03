@@ -1,0 +1,55 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h1>Bookings</h1>
+    <table>
+        <thead>
+        <tr><th>#</th><th>Client</th><th>Service</th><th>Master</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+        {% for booking in all_bookings %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ booking.get_client.get_name }}</td>
+                <td>{{ booking.get_service.get_name }}</td>
+                <td>{{ booking.get_master.get_name }}</td>
+                <td>{{ booking.get_status.value }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">No bookings.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="inline-forms">
+    <div class="card">
+        <h2>Create Booking</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create">
+            {{ create_form.as_p }}
+            <button type="submit">Create</button>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Execute Confirmed Booking</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="execute">
+            {{ execute_form.as_p }}
+            <button type="submit">Execute</button>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Cancel Confirmed Booking</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="cancel">
+            {{ cancel_form.as_p }}
+            <button type="submit">Cancel</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

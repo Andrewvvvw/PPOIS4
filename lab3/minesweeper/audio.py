@@ -16,10 +16,6 @@ class AudioManager:
 
     def _init(self) -> None:
         try:
-            import pygame
-        except ImportError:
-            return
-        try:
             if not pygame.mixer.get_init():
                 pygame.mixer.init()
             self.available = True
